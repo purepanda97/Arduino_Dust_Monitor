@@ -40,7 +40,7 @@ float dustDensity = 0;
 float dustState = 0;
 boolean DustCalculate_RUN = false;
 boolean DustCalculate_Done = false;
-unsigned int buzzer_count = 0;
+unsigned int count = 0;
 
 //Speaker var
 int frequency[3] = {262, 294, 330};
@@ -83,16 +83,16 @@ void loop()
       DustCalculate_Done = false;
     }
   } else {
-    if (buzzer_count > 0 ) {
+    if (count > 0 ) {
       for(i = 0; i < 3; i++){
         tone(Speaker, frequency[i], 100);
         delay(200);
       }
-      buzzer_count--;
+      count--;
     } else digitalWrite(Speaker, LOW);
     
     //Start Time Initialize
-    if((dustState > 0 && buzzer_count == 0) || (dustState == 0)) 
+    if((dustState > 0 && count == 0) || (dustState == 0)) 
     {
       DustCalculate_RUN = true;
       starttime = millis();
@@ -138,12 +138,12 @@ void calcDustDensity() {
     dustDensity = concentration * 100 / 13000;
     lowpulseoccupancy = 0;
     
-    if(dustDensity > 150) buzzer_count = 3;
-    else if(dustDensity > 5) buzzer_count = 2;
-    else if(dustDensity > 3) buzzer_count = 1;
-    else buzzer_count = 0;
+    if(dustDensity > 150) count = 3;
+    else if(dustDensity > 5) count = 2;
+    else if(dustDensity > 3) count = 1;
+    else count = 0;
     
-    dustState = buzzer_count;
+    dustState = count;
   }
 }
 
